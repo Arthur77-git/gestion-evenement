@@ -1,5 +1,6 @@
 package com.evenements.model;
 
+import com.evenements.exception.CapaciteMaxAtteinteException;
 import com.evenements.observer.EvenementObservable;
 import com.evenements.observer.ParticipantObserver;
 
@@ -41,12 +42,17 @@ public abstract class Evenement implements EvenementObservable {
 
     /**
      * Ajoute un participant à l'événement et comme observateur.
+     * Lance une exception si la capacité maximale est atteinte.
      *
      * @param participant Le participant à ajouter
+     * @throws CapaciteMaxAtteinteException si la capacité est dépassée
      */
     public void ajouterParticipant(Participant participant) {
+        if (participants.size() >= capaciteMax) {
+            throw new CapaciteMaxAtteinteException("Capacité maximale de " + capaciteMax + " atteinte pour l'événement " + nom);
+        }
         participants.add(participant);
-        ajouterObservateur(participant); // Ajoute comme observateur
+        ajouterObservateur(participant);
     }
 
     /**

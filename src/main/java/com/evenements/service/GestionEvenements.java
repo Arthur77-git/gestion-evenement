@@ -1,6 +1,8 @@
 package com.evenements.service;
 
+import com.evenements.exception.EvenementDejaExistantException;
 import com.evenements.model.Evenement;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,10 +34,15 @@ public class GestionEvenements {
 
     /**
      * Ajoute un événement à la collection.
+     * Lance une exception si un événement avec le même ID existe déjà.
      *
      * @param evenement L'événement à ajouter
+     * @throws EvenementDejaExistantException si l'ID existe déjà
      */
     public void ajouterEvenement(Evenement evenement) {
+        if (evenements.containsKey(evenement.getId())) {
+            throw new EvenementDejaExistantException("Un événement avec l'ID " + evenement.getId() + " existe déjà");
+        }
         evenements.put(evenement.getId(), evenement);
     }
 

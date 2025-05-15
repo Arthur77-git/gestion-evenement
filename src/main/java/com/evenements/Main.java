@@ -10,8 +10,10 @@ public class Main {
     public static void main(String[] args) {
         ConsoleNotificationService service = new ConsoleNotificationService();
         Participant p1 = new Participant("P1", "Alice", "alice@email.com", service);
-        Concert concert = new Concert("C1", "Concert Rock", LocalDateTime.now(), "Paris", 100, "The Band", "Rock");
+        Participant p2 = new Participant("P2", "Bob", "bob@email.com", service);
+        Concert concert = new Concert("C1", "Concert Rock", LocalDateTime.now(), "Paris", 1, "Sia", "Pop");
         concert.ajouterParticipant(p1);
+        concert.ajouterParticipant(p2);
         concert.annuler(); // Devrait afficher une notification
     }
 }
