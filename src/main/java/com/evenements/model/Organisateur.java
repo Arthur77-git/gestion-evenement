@@ -9,7 +9,7 @@ import java.util.List;
  * Représente un organisateur, qui est un type de participant pouvant gérer des événements.
  */
 public class Organisateur extends Participant {
-    private List<Evenement> evenementsOrganises;
+    private final List<Evenement> evenementsOrganises;
 
     /**
      * Constructeur pour initialiser un organisateur.

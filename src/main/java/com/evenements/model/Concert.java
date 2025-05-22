@@ -6,8 +6,8 @@ import java.time.LocalDateTime;
  * Représente un concert, un type spécifique d'événement.
  */
 public class Concert extends Evenement {
-    private String artiste;
-    private String genreMusical;
+    private final String artiste;
+    private final String genreMusical;
 
     /**
      * Constructeur pour initialiser un concert.

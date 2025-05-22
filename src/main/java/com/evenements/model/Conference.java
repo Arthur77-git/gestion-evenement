@@ -1,15 +1,13 @@
 package com.evenements.model;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Représente une conférence, un type spécifique d'événement.
  */
 public class Conference extends Evenement {
+    private String orateur;
     private String theme;
-    private List<Intervenant> intervenants;
 
     /**
      * Constructeur pour initialiser une conférence.
@@ -19,40 +17,26 @@ public class Conference extends Evenement {
      * @param date         Date et heure
      * @param lieu         Lieu
      * @param capaciteMax  Capacité maximale
+     * @param orateur      Orateur principal
      * @param theme        Thème de la conférence
      */
-    public Conference(String id, String nom, LocalDateTime date, String lieu, int capaciteMax, String theme) {
+    public Conference(String id, String nom, LocalDateTime date, String lieu, int capaciteMax, String orateur, String theme) {
         super(id, nom, date, lieu, capaciteMax);
+        this.orateur = orateur;
         this.theme = theme;
-        this.intervenants = new ArrayList<>();
-    }
-
-    /**
-     * Ajoute un intervenant à la conférence.
-     *
-     * @param intervenant L'intervenant à ajouter
-     */
-    public void ajouterIntervenant(Intervenant intervenant) {
-        intervenants.add(intervenant);
     }
 
     @Override
     public String afficherDetails() {
-        StringBuilder details = new StringBuilder(super.afficherDetails());
-        details.append(", Thème: ").append(theme);
-        details.append(", Intervenants: ");
-        for (Intervenant i : intervenants) {
-            details.append(i.getNom()).append(" ");
-        }
-        return details.toString();
+        return super.afficherDetails() + ", Orateur: " + orateur + ", Thème: " + theme;
     }
 
     // Getters
-    public String getTheme() {
-        return theme;
+    public String getOrateur() {
+        return orateur;
     }
 
-    public List<Intervenant> getIntervenants() {
-        return new ArrayList<>(intervenants);
+    public String getTheme() {
+        return theme;
     }
 }

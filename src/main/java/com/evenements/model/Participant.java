@@ -4,20 +4,20 @@ import com.evenements.observer.ParticipantObserver;
 import com.evenements.service.NotificationService;
 
 /**
- * Représente un participant à un événement.
+ * Représente un participant à un événement, capable de recevoir des notifications.
  */
 public class Participant implements ParticipantObserver {
-    private String id;
-    private String nom;
-    private String email;
-    private NotificationService notificationService;
+    private final String id;
+    private final String nom;
+    private final String email;
+    private final NotificationService notificationService;
 
     /**
      * Constructeur pour initialiser un participant.
      *
-     * @param id                Identifiant unique
-     * @param nom               Nom du participant
-     * @param email             Adresse email
+     * @param id                  Identifiant unique
+     * @param nom                 Nom du participant
+     * @param email               Adresse email
      * @param notificationService Service pour envoyer les notifications
      */
     public Participant(String id, String nom, String email, NotificationService notificationService) {
@@ -27,9 +27,15 @@ public class Participant implements ParticipantObserver {
         this.notificationService = notificationService;
     }
 
+    /**
+     * Reçoit une notification et l'envoie via le service de notification de manière asynchrone.
+     *
+     * @param message Le message de la notification
+     */
     @Override
     public void recevoirNotification(String message) {
-        notificationService.envoyerNotification("Notification pour " + nom + " (" + email + "): " + message);
+        String formattedMessage = String.format("Notification pour %s (%s): %s", nom, email, message);
+        notificationService.envoyerNotification(formattedMessage);
     }
 
     // Getters

@@ -1,8 +1,12 @@
 package com.evenements.model;
 
 import com.evenements.exception.CapaciteMaxAtteinteException;
+import com.evenements.exception.ParticipantNonInscritException;
 import com.evenements.observer.EvenementObservable;
 import com.evenements.observer.ParticipantObserver;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -12,6 +16,15 @@ import java.util.List;
  * Classe abstraite représentant un événement (conférence, concert, etc.).
  * Fournit les attributs et méthodes de base pour tous les types d'événements.
  */
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "type"
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Conference.class, name = "Conference"),
+        @JsonSubTypes.Type(value = Concert.class, name = "Concert")
+})
 public abstract class Evenement implements EvenementObservable {
     private String id;
     private String nom;
@@ -19,6 +32,7 @@ public abstract class Evenement implements EvenementObservable {
     private String lieu;
     private int capaciteMax;
     private List<Participant> participants;
+    @JsonIgnore
     private List<ParticipantObserver> observateurs;
 
     /**
@@ -53,6 +67,19 @@ public abstract class Evenement implements EvenementObservable {
         }
         participants.add(participant);
         ajouterObservateur(participant);
+    }
+
+    /**
+     * Supprime un participant de l'événement et de la liste des observateurs.
+     *
+     * @param participant Le participant à supprimer
+     * @throws ParticipantNonInscritException si le participant n'est pas inscrit
+     */
+    public void supprimerParticipant(Participant participant) {
+        if (!participants.remove(participant)) {
+            throw new ParticipantNonInscritException("Le participant " + participant.getNom() + " n'est pas inscrit à l'événement " + nom);
+        }
+        supprimerObservateur(participant);
     }
 
     /**

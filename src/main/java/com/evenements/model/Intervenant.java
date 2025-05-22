@@ -4,8 +4,8 @@ package com.evenements.model;
  * Représente un intervenant dans une conférence.
  */
 public class Intervenant {
-    private String nom;
-    private String specialite;
+    private final String nom;
+    private final String specialite;
 
     /**
      * Constructeur pour initialiser un intervenant.
